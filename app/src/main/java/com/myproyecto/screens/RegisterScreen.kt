@@ -21,6 +21,9 @@ fun RegisterForm(padding: PaddingValues, onNavigateToLogin: () -> Unit) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
+    var city by remember { mutableStateOf("") }
+    var address by remember { mutableStateOf("") }
+
 
     Column(
         modifier = Modifier
@@ -41,7 +44,27 @@ fun RegisterForm(padding: PaddingValues, onNavigateToLogin: () -> Unit) {
             onValidate = { it.isEmpty() || !it.contains("@") },
             keyboardOptions = androidx.compose.foundation.text.KeyboardOptions.Default
         )
+        Spacer(modifier = Modifier.height(10.dp))
 
+        TextFieldForm(
+            value = city,
+            onValueChange = { city = it },
+            label = "Ciudad",
+            supportingText = "Ingrese su ciudad",
+            onValidate = { city.isEmpty() },
+            keyboardOptions = androidx.compose.foundation.text.KeyboardOptions.Default
+        )
+
+        Spacer(modifier = Modifier.height(10.dp))
+
+        TextFieldForm(
+            value = address,
+            onValueChange = { address = it },
+            label = "Dirección",
+            supportingText = "Ingrese su dirección",
+            onValidate = { address.isEmpty() },
+            keyboardOptions = androidx.compose.foundation.text.KeyboardOptions.Default
+        )
         Spacer(modifier = Modifier.height(10.dp))
 
         TextFieldForm(

@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -21,7 +20,8 @@ fun LoginScreen(navController: NavController) {
         LoginForm(
             padding = padding,
             onNavigateToRegister = { navController.navigate("register") },
-            onNavigateToRecovery = { navController.navigate("password_recovery") }
+            onNavigateToRecovery = { navController.navigate("password_recovery") },
+            onLoginSuccess = { navController.navigate("home") }
         )
     }
 }
@@ -30,10 +30,12 @@ fun LoginScreen(navController: NavController) {
 fun LoginForm(
     padding: PaddingValues,
     onNavigateToRegister: () -> Unit,
-    onNavigateToRecovery: () -> Unit
+    onNavigateToRecovery: () -> Unit,
+    onLoginSuccess: () -> Unit
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var showError by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -44,7 +46,10 @@ fun LoginForm(
     ) {
         TextFieldForm(
             value = email,
-            onValueChange = { email = it },
+            onValueChange = {
+                email = it
+                showError = false
+            },
             label = "Email",
             supportingText = "El email no es válido",
             onValidate = { !Patterns.EMAIL_ADDRESS.matcher(it).matches() },
@@ -55,7 +60,10 @@ fun LoginForm(
 
         TextFieldForm(
             value = password,
-            onValueChange = { password = it },
+            onValueChange = {
+                password = it
+                showError = false
+            },
             label = "Contraseña",
             supportingText = "Debe tener al menos 8 caracteres",
             onValidate = { password.length < 8 },
@@ -63,11 +71,21 @@ fun LoginForm(
             isPassword = true
         )
 
+        if (showError) {
+            Text(text = "Usuario o contraseña incorrectos", color = MaterialTheme.colorScheme.error)
+        }
+
         Spacer(modifier = Modifier.height(10.dp))
 
         Button(
             enabled = email.isNotEmpty() && password.isNotEmpty(),
-            onClick = { /* TODO: Lógica de login */ }
+            onClick = {
+                if (email == "admin" && password == "admin") {
+                    onLoginSuccess()
+                } else {
+                    showError = true
+                }
+            }
         ) {
             Icon(imageVector = Icons.Filled.Person, contentDescription = "Usuario")
             Text(text = "Login")
