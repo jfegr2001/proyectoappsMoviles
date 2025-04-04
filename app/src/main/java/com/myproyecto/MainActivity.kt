@@ -8,6 +8,7 @@ import androidx.compose.material3.*
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.myproyecto.screens.EditUserScreen
 import com.myproyecto.screens.GenerateReportScreen
 import com.myproyecto.screens.HomeScreen
 import com.myproyecto.screens.LoginScreen
@@ -29,8 +30,10 @@ class MainActivity : ComponentActivity() {
                     composable("password_recovery") { PasswordRecoveryScreen(navController) }
                     composable("home") { HomeScreen(navController) }
                     composable("generate_report") { GenerateReportScreen(navController, loggedInUser = "admin") }
+                    composable("edit_user") { EditUserScreen(navController, loggedInUser = "admin") }
+                }
                 }
             }
         }
     }
-}
+
