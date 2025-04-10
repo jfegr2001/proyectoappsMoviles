@@ -1,52 +1,69 @@
 package com.myproyecto.screens
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 
 @Composable
 fun HomeScreen(navController: NavController) {
-    Scaffold { padding ->
+    var query by remember { mutableStateOf("") }
+
+    Surface(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        color = Color.White,
+        shape = RoundedCornerShape(16.dp)
+    ) {
         Column(
             modifier = Modifier
-                .padding(padding)
-                .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .fillMaxSize()
+                .padding(24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.SpaceEvenly
         ) {
-            SearchBar()
-            Spacer(modifier = Modifier.height(10.dp))
+            Text(
+                text = "Bienvenido a la App de Emergencias",
+                style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
+                color = Color.Black,
+                modifier = Modifier.padding(bottom = 16.dp)
+            )
+
+            OutlinedTextField(
+                value = query,
+                onValueChange = { query = it },
+                label = { Text("Buscar...") },
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            Spacer(modifier = Modifier.height(24.dp))
+
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .weight(1f), // Espacio reservado para Google Maps
+                    .height(200.dp),
                 contentAlignment = Alignment.Center
             ) {
-                Text(text = "Mapa aquí")
+                Text("Mapa aquí", color = Color.DarkGray)
             }
-            Spacer(modifier = Modifier.height(20.dp))
-            Button(onClick = { navController.navigate("generate_report") }) {
-                Icon(imageVector = Icons.Filled.Add, contentDescription = "Generar Reporte")
-                Spacer(modifier = Modifier.width(8.dp))
-                Text(text = "Generar Reporte")
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            Button(
+                onClick = { navController.navigate("emergency_menu") },
+                modifier = Modifier.fillMaxWidth(),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF91C788)),
+                shape = RoundedCornerShape(20.dp)
+            ) {
+                Text("Menú de Emergencias", fontWeight = FontWeight.Bold)
             }
-            Spacer(modifier = Modifier.height(20.dp))
         }
     }
-}
-
-@Composable
-fun SearchBar() {
-    var query by remember { mutableStateOf("") }
-    TextField(
-        value = query,
-        onValueChange = { query = it },
-        label = { Text("Buscar...") },
-        modifier = Modifier.fillMaxWidth().padding(16.dp)
-    )
 }

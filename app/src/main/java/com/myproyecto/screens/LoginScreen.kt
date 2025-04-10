@@ -1,106 +1,84 @@
 package com.myproyecto.screens
 
-import android.util.Patterns
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.myproyecto.components.TextFieldForm
 
 @Composable
 fun LoginScreen(navController: NavController) {
-    Scaffold { padding ->
-        LoginForm(
-            padding = padding,
-            onNavigateToRegister = { navController.navigate("register") },
-            onNavigateToRecovery = { navController.navigate("password_recovery") },
-            onLoginSuccess = { navController.navigate("home") }
-        )
-    }
-}
-
-@Composable
-fun LoginForm(
-    padding: PaddingValues,
-    onNavigateToRegister: () -> Unit,
-    onNavigateToRecovery: () -> Unit,
-    onLoginSuccess: () -> Unit
-) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    var showError by remember { mutableStateOf(false) }
 
-    Column(
+    Surface(
         modifier = Modifier
-            .padding(padding)
-            .fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+            .fillMaxSize()
+            .padding(16.dp),
+        color = Color.White,
+        shape = RoundedCornerShape(16.dp)
     ) {
-        TextFieldForm(
-            value = email,
-            onValueChange = {
-                email = it
-                showError = false
-            },
-            label = "Email",
-            supportingText = "El email no es válido",
-            onValidate = { !Patterns.EMAIL_ADDRESS.matcher(it).matches() },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
-        )
-
-        Spacer(modifier = Modifier.height(10.dp))
-
-        TextFieldForm(
-            value = password,
-            onValueChange = {
-                password = it
-                showError = false
-            },
-            label = "Contraseña",
-            supportingText = "Debe tener al menos 8 caracteres",
-            onValidate = { password.length < 8 },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-            isPassword = true
-        )
-
-        if (showError) {
-            Text(text = "Usuario o contraseña incorrectos", color = MaterialTheme.colorScheme.error)
-        }
-
-        Spacer(modifier = Modifier.height(10.dp))
-
-        Button(
-            enabled = email.isNotEmpty() && password.isNotEmpty(),
-            onClick = {
-                if (email == "admin" && password == "admin") {
-                    onLoginSuccess()
-                } else {
-                    showError = true
-                }
-            }
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
-            Icon(imageVector = Icons.Filled.Person, contentDescription = "Usuario")
-            Text(text = "Login")
-        }
+            Text(
+                text = "Iniciar Sesión",
+                style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
+                color = Color.Black
+            )
 
-        Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
-        Button(onClick = onNavigateToRegister) {
-            Text(text = "Registrarse")
-        }
+            OutlinedTextField(
+                value = email,
+                onValueChange = { email = it },
+                label = { Text("Correo electrónico") },
+                modifier = Modifier.fillMaxWidth()
+            )
 
-        Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(12.dp))
 
-        TextButton(onClick = onNavigateToRecovery) {
-            Text(text = "¿Olvidaste tu contraseña?")
+            OutlinedTextField(
+                value = password,
+                onValueChange = { password = it },
+                label = { Text("Contraseña") },
+                visualTransformation = PasswordVisualTransformation(),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            Button(
+                onClick = { navController.navigate("home") },
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF91C788)),
+                shape = RoundedCornerShape(20.dp),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Ingresar", fontWeight = FontWeight.Bold)
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            TextButton(onClick = { navController.navigate("register") }) {
+                Text("¿No tienes cuenta? Regístrate")
+            }
+
+            TextButton(onClick = { navController.navigate("password_recovery") }) {
+                Text("¿Olvidaste tu contraseña?")
+            }
         }
     }
 }
