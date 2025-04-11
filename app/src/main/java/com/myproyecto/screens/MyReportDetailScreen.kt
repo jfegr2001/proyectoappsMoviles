@@ -1,6 +1,5 @@
 package com.myproyecto.screens
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
@@ -10,6 +9,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.myproyecto.components.BackgroundImage
+import com.myproyecto.components.TransparentTopBar
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -25,76 +26,75 @@ fun MyReportDetailScreen(navController: NavController) {
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { Text("Detalle del Reporte") }
-            )
+                TransparentTopBar("Mis reportes")
+
         }
     ) { padding ->
-        Surface(
-            modifier = Modifier
-                .padding(padding)
-                .fillMaxSize()
-                .padding(16.dp),
-            color = Color.White,
-            shape = RoundedCornerShape(16.dp)
-        ) {
-            Column(
+        Box(modifier = Modifier.fillMaxSize()) {
+            // Imagen de fondo
+            BackgroundImage()
+
+            Surface(
                 modifier = Modifier
+                    .padding(padding)
                     .fillMaxSize()
-                    .padding(16.dp)
+                    .padding(16.dp),
+                color = Color.White.copy(alpha = 0.95f),
+                shape = RoundedCornerShape(16.dp)
             ) {
-                Text(
-                    text = titulo,
-                    style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
-                    color = Color.Black
-                )
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-                Text(
-                    text = "Categoría: $categoria",
-                    style = MaterialTheme.typography.titleMedium,
-                    color = Color.Black
-                )
-
-                if (esImportante) {
-                    Text(
-                        text = " Importante",
-                        color = Color.Red,
-                        style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
-                    )
-                }
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-                Text(
-                    text = descripcion,
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = Color.DarkGray
-                )
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Text("Fecha: $fecha", color = Color.Black)
-                Text("Ubicación: $ubicacion", color = Color.Black)
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-
-
-                Spacer(modifier = Modifier.height(24.dp))
-
-                Button(
-                    onClick = { navController.popBackStack() },
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(20.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF91C788))
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp)
                 ) {
-                    Text("Volver", fontWeight = FontWeight.Bold)
+                    Text(
+                        text = titulo,
+                        style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
+                        color = Color.Black
+                    )
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    Text(
+                        text = "Categoría: $categoria",
+                        style = MaterialTheme.typography.titleMedium,
+                        color = Color.Black
+                    )
+
+                    if (esImportante) {
+                        Text(
+                            text = " Importante",
+                            color = Color.Red,
+                            style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    Text(
+                        text = descripcion,
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = Color.DarkGray
+                    )
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    Text("Fecha: $fecha", color = Color.Black)
+                    Text("Ubicación: $ubicacion", color = Color.Black)
+
+                    Spacer(modifier = Modifier.height(24.dp))
+
+                    Button(
+                        onClick = { navController.popBackStack() },
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(20.dp),
+                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF91C788))
+                    ) {
+                        Text("Volver", fontWeight = FontWeight.Bold)
+                    }
                 }
             }
         }
     }
 }
-
 

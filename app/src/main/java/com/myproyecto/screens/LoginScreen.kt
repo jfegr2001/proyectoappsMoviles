@@ -1,31 +1,58 @@
 package com.myproyecto.screens
-
+import android.util.Patterns
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.myproyecto.R
+import com.myproyecto.components.BackgroundImage
 
 @Composable
 fun LoginScreen(navController: NavController) {
+    Scaffold { padding ->
+        LoginForm(
+            padding = padding,
+            onNavigateToRegister = { navController.navigate("register") },
+            onNavigateToRecovery = { navController.navigate("password_recovery") },
+            onLoginSuccess = { navController.navigate("home") }
+        )
+    }
+}
+
+@Composable
+fun LoginForm(
+    padding: PaddingValues,
+    onNavigateToRegister: () -> Unit,
+    onNavigateToRecovery: () -> Unit,
+    onLoginSuccess: () -> Unit
+) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var showError by remember { mutableStateOf(false) }
 
-    Surface(
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
-        color = Color.White,
-        shape = RoundedCornerShape(16.dp)
+            .padding(padding)
     ) {
+       BackgroundImage()
+
+        // Contenido del formulario
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -33,51 +60,97 @@ fun LoginScreen(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Text(
-                text = "Iniciar Sesión",
-                style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
-                color = Color.Black
+            Text (
+                text = "Bienvenido\n" +
+                        "Iniciar Sesión",
+                style = MaterialTheme.typography.headlineSmall.copy(
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black
+                )
             )
 
             Spacer(modifier = Modifier.height(24.dp))
 
             OutlinedTextField(
                 value = email,
-                onValueChange = { email = it },
-                label = { Text("Correo electrónico") },
-                modifier = Modifier.fillMaxWidth()
+                onValueChange = {
+                    email = it
+                    showError = false
+                },
+                label = { Text("Correo electrónico", color = Color.Black) },
+                isError = email.isNotEmpty() && !Patterns.EMAIL_ADDRESS.matcher(email).matches(),
+                modifier = Modifier.fillMaxWidth(),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+                colors = OutlinedTextFieldDefaults.colors(
+                    unfocusedBorderColor = Color.Black,
+                    focusedBorderColor = Color.Black,
+                    cursorColor = Color.Black,
+                    focusedLabelColor = Color.Black,
+                    unfocusedLabelColor = Color.LightGray,
+                    focusedTextColor = Color.Black,
+                    unfocusedTextColor = Color.Black                 )
             )
 
             Spacer(modifier = Modifier.height(12.dp))
 
             OutlinedTextField(
                 value = password,
-                onValueChange = { password = it },
-                label = { Text("Contraseña") },
+                onValueChange = {
+                    password = it
+                    showError = false
+                },
+                label = { Text("Contraseña", color = Color.Black) },
                 visualTransformation = PasswordVisualTransformation(),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                isError = password.isNotEmpty() && password.length < 8,
+                colors = OutlinedTextFieldDefaults.colors(
+                    unfocusedBorderColor = Color.Black,
+                    focusedBorderColor = Color.Black,
+                    cursorColor = Color.Black,
+                    focusedLabelColor = Color.Black,
+                    unfocusedLabelColor = Color.LightGray,
+                    focusedTextColor = Color.Black,
+                    unfocusedTextColor = Color.Black
+                )
             )
+
+            if (showError) {
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = "Usuario o contraseña incorrectos",
+                    color = Color.Red
+                )
+            }
 
             Spacer(modifier = Modifier.height(24.dp))
 
             Button(
-                onClick = { navController.navigate("home") },
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF91C788)),
+                onClick = {
+                    if (email == "admin" && password == "admin") {
+                        onLoginSuccess()
+                    } else {
+                        showError = true
+                    }
+                },
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4CAF50)), // verde más oscuro
                 shape = RoundedCornerShape(20.dp),
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                enabled = email.isNotEmpty() && password.isNotEmpty()
             ) {
-                Text("Ingresar", fontWeight = FontWeight.Bold)
+                Icon(imageVector = Icons.Filled.Person, contentDescription = "Usuario", tint = Color.White)
+                Spacer(modifier = Modifier.width(8.dp))
+                Text("Ingresar", fontWeight = FontWeight.Bold, color = Color.Black)
             }
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            TextButton(onClick = { navController.navigate("register") }) {
-                Text("¿No tienes cuenta? Regístrate")
+            TextButton(onClick = onNavigateToRegister) {
+                Text("¿No tienes cuenta? Regístrate", color = Color.Black)
             }
 
-            TextButton(onClick = { navController.navigate("password_recovery") }) {
-                Text("¿Olvidaste tu contraseña?")
+            TextButton(onClick = onNavigateToRecovery) {
+                Text("¿Olvidaste tu contraseña?", color = Color.Black)
             }
         }
     }

@@ -8,6 +8,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.myproyecto.components.TextFieldForm
+import androidx.compose.foundation.Image
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import com.myproyecto.R
+import com.myproyecto.components.BackgroundImage
+
 
 @Composable
 fun RegisterScreen(navController: NavController) {
@@ -25,84 +33,104 @@ fun RegisterForm(padding: PaddingValues, onNavigateToLogin: () -> Unit) {
     var address by remember { mutableStateOf("") }
 
 
-    Column(
+    Box(
         modifier = Modifier
-            .padding(padding)
-            .fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+            .fillMaxSize()
     ) {
-        Text(text = "Registro de Usuario", style = MaterialTheme.typography.headlineMedium)
 
-        Spacer(modifier = Modifier.height(20.dp))
+        BackgroundImage()
 
-        TextFieldForm(
-            value = email,
-            onValueChange = { email = it },
-            label = "Correo Electrónico",
-            supportingText = "Ingrese un correo válido",
-            onValidate = { it.isEmpty() || !it.contains("@") },
-            keyboardOptions = androidx.compose.foundation.text.KeyboardOptions.Default
-        )
-        Spacer(modifier = Modifier.height(10.dp))
-
-        TextFieldForm(
-            value = city,
-            onValueChange = { city = it },
-            label = "Ciudad",
-            supportingText = "Ingrese su ciudad",
-            onValidate = { city.isEmpty() },
-            keyboardOptions = androidx.compose.foundation.text.KeyboardOptions.Default
-        )
-
-        Spacer(modifier = Modifier.height(10.dp))
-
-        TextFieldForm(
-            value = address,
-            onValueChange = { address = it },
-            label = "Dirección",
-            supportingText = "Ingrese su dirección",
-            onValidate = { address.isEmpty() },
-            keyboardOptions = androidx.compose.foundation.text.KeyboardOptions.Default
-        )
-        Spacer(modifier = Modifier.height(10.dp))
-
-        TextFieldForm(
-            value = password,
-            onValueChange = { password = it },
-            label = "Contraseña",
-            supportingText = "Debe tener al menos 8 caracteres",
-            onValidate = { password.length < 8 },
-            keyboardOptions = androidx.compose.foundation.text.KeyboardOptions.Default,
-            isPassword = true
-        )
-
-        Spacer(modifier = Modifier.height(10.dp))
-
-        TextFieldForm(
-            value = confirmPassword,
-            onValueChange = { confirmPassword = it },
-            label = "Confirmar Contraseña",
-            supportingText = "Las contraseñas no coinciden",
-            onValidate = { confirmPassword != password },
-            keyboardOptions = androidx.compose.foundation.text.KeyboardOptions.Default,
-            isPassword = true
-        )
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        Button(
-            enabled = email.isNotEmpty() && password.isNotEmpty() && password == confirmPassword,
-            onClick = { /* TODO: Lógica de registro */ }
+        Column(
+            modifier = Modifier
+                .padding(padding)
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
-            Text(text = "Registrarse")
-        }
 
-        Spacer(modifier = Modifier.height(10.dp))
 
-        TextButton(onClick = onNavigateToLogin) {
-            Text(text = "¿Ya tienes cuenta? Inicia sesión")
+            Text(text = "Registrate", style = MaterialTheme.typography.headlineMedium)
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            TextFieldForm(
+                modifier = Modifier
+                    .width(350.dp),
+                value = email,
+                onValueChange = { email = it },
+                label = "Correo Electrónico",
+                supportingText = "Ingrese un correo válido",
+                onValidate = { it.isEmpty() || !it.contains("@") },
+                keyboardOptions = androidx.compose.foundation.text.KeyboardOptions.Default
+            )
+            Spacer(modifier = Modifier.height(10.dp))
+
+            TextFieldForm(
+                modifier = Modifier
+                    .width(350.dp),
+                value = city,
+                onValueChange = { city = it },
+                label = "Ciudad",
+                supportingText = "Ingrese su ciudad",
+                onValidate = { city.isEmpty() },
+                keyboardOptions = androidx.compose.foundation.text.KeyboardOptions.Default
+            )
+
+            Spacer(modifier = Modifier.height(10.dp))
+
+            TextFieldForm(
+                modifier = Modifier
+                    .width(350.dp),
+                value = address,
+                onValueChange = { address = it },
+                label = "Dirección",
+                supportingText = "Ingrese su dirección",
+                onValidate = { address.isEmpty() },
+                keyboardOptions = androidx.compose.foundation.text.KeyboardOptions.Default
+            )
+            Spacer(modifier = Modifier.height(10.dp))
+
+            TextFieldForm(
+                modifier = Modifier
+                    .width(350.dp),
+                value = password,
+                onValueChange = { password = it },
+                label = "Contraseña",
+                supportingText = "Debe tener al menos 8 caracteres",
+                onValidate = { password.length < 8 },
+                keyboardOptions = androidx.compose.foundation.text.KeyboardOptions.Default,
+                isPassword = true
+            )
+
+            Spacer(modifier = Modifier.height(10.dp))
+
+            TextFieldForm(
+                modifier = Modifier
+                        .width(350.dp),
+                value = confirmPassword,
+                onValueChange = { confirmPassword = it },
+                label = "Confirmar Contraseña",
+                supportingText = "Las contraseñas no coinciden",
+                onValidate = { confirmPassword != password },
+                keyboardOptions = androidx.compose.foundation.text.KeyboardOptions.Default,
+                isPassword = true
+            )
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            Button(
+                enabled = email.isNotEmpty() && password.isNotEmpty() && password == confirmPassword,
+                onClick = { /* TODO: Lógica de registro */ }
+            ) {
+                Text(text = "Registrarse", color = Color.Black)
+
+            }
+
+            Spacer(modifier = Modifier.height(10.dp))
+
+            TextButton(onClick = onNavigateToLogin) {
+                Text(text = "¿Ya tienes cuenta? Inicia sesión", color = Color.Black)
+            }
         }
     }
 }
-

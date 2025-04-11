@@ -6,6 +6,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.compose.ui.graphics.Color
+import com.myproyecto.components.BackgroundImage
+import com.myproyecto.components.TransparentTopBar
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -18,65 +21,73 @@ fun EditUserScreen(navController: NavController, loggedInUser: String) {
 
     Scaffold(
         topBar = {
-            TopAppBar (title = { Text("Editar Información") })
-
+            TransparentTopBar(title = "Editar Información")
         }
     ) { padding ->
-        Column(
+
+        Box(
             modifier = Modifier
-                .padding(padding)
                 .fillMaxSize()
-                .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "Editar Usuario", style = MaterialTheme.typography.headlineMedium)
-            Spacer(modifier = Modifier.height(16.dp))
-
-            OutlinedTextField(
-                value = name,
-                onValueChange = { name = it },
-                label = { Text("Nombre") },
-                modifier = Modifier.fillMaxWidth()
-            )
-            Spacer(modifier = Modifier.height(10.dp))
-
-            OutlinedTextField(
-                value = email,
-                onValueChange = { email = it },
-                label = { Text("Correo Electrónico") },
-                modifier = Modifier.fillMaxWidth()
-            )
-            Spacer(modifier = Modifier.height(10.dp))
-
-            OutlinedTextField(
-                value = city,
-                onValueChange = { city = it },
-                label = { Text("Ciudad") },
-                modifier = Modifier.fillMaxWidth()
-            )
-            Spacer(modifier = Modifier.height(10.dp))
-
-            OutlinedTextField(
-                value = address,
-                onValueChange = { address = it },
-                label = { Text("Dirección") },
-                modifier = Modifier.fillMaxWidth()
-            )
-            Spacer(modifier = Modifier.height(20.dp))
-
-            Button(
-                onClick = { /* TODO: Guardar cambios del usuario */ },
-                modifier = Modifier.fillMaxWidth()
+            BackgroundImage()
+            Column(
+                modifier = Modifier
+                    .padding(padding)
+                    .fillMaxSize()
+                    .padding(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text("Guardar Cambios")
-            }
+                Text(text = "Editar Usuario", style = MaterialTheme.typography.headlineMedium)
+                Spacer(modifier = Modifier.height(16.dp))
 
-            Spacer(modifier = Modifier.height(10.dp))
+                OutlinedTextField(
+                    value = name,
+                    onValueChange = { name = it },
+                    label = { Text("Nombre") },
+                    modifier = Modifier.fillMaxWidth()
+                )
+                Spacer(modifier = Modifier.height(10.dp))
 
-            TextButton(onClick = { navController.popBackStack() }) {
-                Text("Cancelar")
+                OutlinedTextField(
+                    value = email,
+                    onValueChange = { email = it },
+                    label = { Text("Correo Electrónico") },
+                    modifier = Modifier.fillMaxWidth()
+                )
+                Spacer(modifier = Modifier.height(10.dp))
+
+                OutlinedTextField(
+                    value = city,
+                    onValueChange = { city = it },
+                    label = { Text("Ciudad") },
+                    modifier = Modifier.fillMaxWidth()
+                )
+                Spacer(modifier = Modifier.height(10.dp))
+
+                OutlinedTextField(
+                    value = address,
+                    onValueChange = { address = it },
+                    label = { Text("Dirección") },
+                    modifier = Modifier.fillMaxWidth()
+                )
+                Spacer(modifier = Modifier.height(20.dp))
+
+                Button(
+                    onClick = { /* TODO: Guardar cambios del usuario */ },
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text("Guardar Cambios")
+                }
+
+                Spacer(modifier = Modifier.height(10.dp))
+
+                TextButton(onClick = { navController.popBackStack() }) {
+                    Text("Cancelar")
+                }
             }
         }
-    }
+        }
+
+
 }
 
