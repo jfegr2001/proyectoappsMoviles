@@ -1,20 +1,19 @@
 package com.myproyecto.screens
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
+import androidx.navigation.compose.rememberNavController
+import com.myproyecto.components.HomeButtonBar
+
 @Composable
-fun HomeScreen(navController: NavController) {
+fun HomeScreen() {
+    val navController = rememberNavController()
     Scaffold { padding ->
+
         Column(
             modifier = Modifier
                 .padding(padding)
@@ -31,15 +30,14 @@ fun HomeScreen(navController: NavController) {
             ) {
                 Text(text = "Mapa aquí")
             }
+
             Spacer(modifier = Modifier.height(20.dp))
-            Button(onClick = { navController.navigate("emergency_menu") }) {
-                Icon(imageVector = Icons.Filled.Add, contentDescription = "Generar Reporte")
-                Spacer(modifier = Modifier.width(8.dp))
-                Text(text = "Generar Reporte")
-            }
-            Spacer(modifier = Modifier.height(20.dp))
+
+            HomeButtonBar()
+
         }
     }
+
 }
 
 @Composable
@@ -52,3 +50,4 @@ fun SearchBar() {
         modifier = Modifier.fillMaxWidth().padding(16.dp)
     )
 }
+

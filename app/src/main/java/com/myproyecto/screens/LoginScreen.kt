@@ -1,8 +1,8 @@
 package com.myproyecto.screens
 import android.util.Patterns
-import androidx.compose.foundation.Image
+
 import androidx.compose.foundation.layout.*
-import androidx.compose.ui.graphics.graphicsLayer
+
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -12,24 +12,38 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import com.myproyecto.R
+
 import com.myproyecto.components.BackgroundImage
+import androidx.navigation.compose.rememberNavController
 
 @Composable
-fun LoginScreen(navController: NavController) {
+fun LoginScreen(
+    navigatToSignUp: () -> Unit ,
+    navigaToForgotPassword: () -> Unit,
+    navigatetoHome: () -> Unit
+) {
     Scaffold { padding ->
+        val navController = rememberNavController()
         LoginForm(
             padding = padding,
-            onNavigateToRegister = { navController.navigate("register") },
-            onNavigateToRecovery = { navController.navigate("password_recovery") },
-            onLoginSuccess = { navController.navigate("home") }
+            onLoginAsAdmin = { navController.navigate("user_reports") } ,
+            navigatToSignUp = {
+                navigatToSignUp()
+
+            },
+            navigatToForgotPassword = {
+                navigaToForgotPassword()
+            },
+
+            navigatetoHome = {
+                navigatetoHome()
+            }
+
+
         )
     }
 }
@@ -37,9 +51,11 @@ fun LoginScreen(navController: NavController) {
 @Composable
 fun LoginForm(
     padding: PaddingValues,
-    onNavigateToRegister: () -> Unit,
-    onNavigateToRecovery: () -> Unit,
-    onLoginSuccess: () -> Unit
+    onLoginAsAdmin: () -> Unit,
+    navigatToSignUp :() -> Unit,
+    navigatToForgotPassword :() -> Unit,
+    navigatetoHome :() -> Unit
+
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -127,13 +143,19 @@ fun LoginForm(
 
             Button(
                 onClick = {
-                    if (email == "admin" && password == "admin") {
-                        onLoginSuccess()
-                    } else {
-                        showError = true
+                    when {
+                        email == "admin" && password == "admin" -> {
+                            onLoginAsAdmin()
+                        }
+                        email == "apps@gmail.com" && password == "123" -> {
+                            navigatetoHome()
+                        }
+                        else -> {
+                            showError = true
+                        }
                     }
                 },
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4CAF50)), // verde más oscuro
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4CAF50)),
                 shape = RoundedCornerShape(20.dp),
                 modifier = Modifier.fillMaxWidth(),
                 enabled = email.isNotEmpty() && password.isNotEmpty()
@@ -145,11 +167,22 @@ fun LoginForm(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            TextButton(onClick = onNavigateToRegister) {
+            TextButton(
+                onClick ={
+                    navigatToSignUp()
+                }
+
+            ) {
+
                 Text("¿No tienes cuenta? Regístrate", color = Color.Black)
             }
 
-            TextButton(onClick = onNavigateToRecovery) {
+            TextButton(
+                onClick = {
+
+                    navigatToForgotPassword()
+                }
+            ) {
                 Text("¿Olvidaste tu contraseña?", color = Color.Black)
             }
         }

@@ -6,19 +6,15 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.myproyecto.components.TextFieldForm
-import androidx.compose.foundation.Image
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
-import com.myproyecto.R
 import com.myproyecto.components.BackgroundImage
+import androidx.navigation.compose.rememberNavController
 
 
 @Composable
-fun RegisterScreen(navController: NavController) {
+fun RegisterScreen() {
+    val navController = rememberNavController()
     Scaffold { padding ->
         RegisterForm(padding, onNavigateToLogin = { navController.navigate("login") })
     }
