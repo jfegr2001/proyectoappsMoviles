@@ -66,6 +66,13 @@ dependencies {
 
     implementation(libs.androidx.navigation.compose)
     implementation(libs.kotlinx.serialization.json)
+    implementation(libs.coil.compose)
+    implementation(libs.androidx.material.icons.extended)
+
+    implementation("com.mapbox.maps:android:11.12.2")
+    implementation("com.mapbox.extension:maps-compose:11.12.2")
+
+
 
 
 

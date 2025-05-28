@@ -31,6 +31,8 @@ sealed class RouteScreen {
     @Serializable
     data object  MyReportDetailScreen : RouteScreen()
 
+    @Serializable
+    data class  ReportDetailScreen(val id: String) : RouteScreen()
 
 
 

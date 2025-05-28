@@ -1,4 +1,4 @@
-package com.myproyecto.screens
+package com.myproyecto.screens.generateReport.screen
 
 
 import androidx.compose.foundation.layout.*

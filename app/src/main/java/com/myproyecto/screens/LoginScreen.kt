@@ -16,21 +16,23 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
-
 import com.myproyecto.components.BackgroundImage
-import androidx.navigation.compose.rememberNavController
 
 @Composable
 fun LoginScreen(
     navigatToSignUp: () -> Unit ,
     navigaToForgotPassword: () -> Unit,
-    navigatetoHome: () -> Unit
+    navigatetoHome: () -> Unit,
+    navigatetoUserReport: () -> Unit
 ) {
     Scaffold { padding ->
-        val navController = rememberNavController()
+
         LoginForm(
             padding = padding,
-            onLoginAsAdmin = { navController.navigate("user_reports") } ,
+            onLoginAsAdmin = {
+
+                navigatetoUserReport()
+            },
             navigatToSignUp = {
                 navigatToSignUp()
 
@@ -55,6 +57,7 @@ fun LoginForm(
     navigatToSignUp :() -> Unit,
     navigatToForgotPassword :() -> Unit,
     navigatetoHome :() -> Unit
+
 
 ) {
     var email by remember { mutableStateOf("") }
@@ -176,6 +179,13 @@ fun LoginForm(
 
                 Text("¿No tienes cuenta? Regístrate", color = Color.Black)
             }
+
+            HorizontalDivider(
+                thickness = 2.dp,
+                color = Color.Black
+            )
+
+
 
             TextButton(
                 onClick = {

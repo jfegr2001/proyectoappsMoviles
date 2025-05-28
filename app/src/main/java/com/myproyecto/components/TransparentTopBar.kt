@@ -13,7 +13,9 @@ fun TransparentTopBar(title: String) {
         title = { Text(title) },
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = Color.Transparent,
-            titleContentColor = Color.Black
+            titleContentColor = Color.Black,
+            actionIconContentColor = Color.Black,
+            navigationIconContentColor = Color.Black
         )
     )
 }
